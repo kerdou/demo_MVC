@@ -1,0 +1,40 @@
+    
+    <div id="contain" class="container">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="index.php">
+                    <h1>Your CRM</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="navbarCollapse" class="collapse navbar-collapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item {activeHome}">
+                            <a class="nav-link" href="index.php">
+                                <i class="fas fa-home fa-2x"></i>
+                                <p>Accueil</p>
+                            </a>
+                        </li>
+                        <li class="nav-item {activeCat}">
+                            <a class="nav-link" href="index.php?controller=category&action=getTable">
+                                <i class="fas fa-grip-horizontal fa-2x"></i>
+                                <p>Catégories</p>
+                            </a>
+                        </li>
+                        <li class="nav-item {activeProsp}">
+                            <a class="nav-link" href="index.php?controller=prospect&action=getTable">
+                                <i class="far fa-address-book fa-2x"></i>
+                                <p>Prospects</p>
+                            </a>
+                        </li>
+                        <li class="nav-item {activeClient}">
+                            <a class="nav-link" href="index.php?controller=client&action=getTable">
+                                <i class="far fa-handshake fa-2x"></i>
+                                <p>Clients</p>
+                            </a>
+                        </li>
+                    </ul>
+    
+                </div>
+            </nav>
