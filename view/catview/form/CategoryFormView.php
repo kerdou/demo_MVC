@@ -49,7 +49,7 @@ class CategoryFormView extends CategoryView {
      * appelée depuis le dispatch() case 'edit' de controller/CategoryController 
      */    
     public function editFormSettings($getGather){
-        $getGather = $this->htmlCharConvert($getGather); // leads to view/ViewInChief.php
+        $getGather = $this->htmlCharConvert($getGather); // leads to view/ViewInChief.php        
 
         $formSettings = array(  "formTitle"=>"Modification d'une catégorie",
                                 "readonly_inputs"=>"",

@@ -58,8 +58,8 @@ class CategoryController extends ControllerInChief
         // Si le $_GET n'est pas vide, récupérer son contenu sinon lui assigner l'action 'getTable'
         $this->getGather = (!empty($_GET))? $_GET : array('action'=>'getTableActionFromGet');
         
-        // Si le $_POST n'est pas vide, récupérer son contenu sinon le laisser tel quel
-        $this->postGather = (isset($_POST))? $_POST : null;
+        // Si le $_POST n'est pas vide, récupérer son contenu et le nettoyer avec la méthode input_cleanup() sinon le laisser tel quel
+        $this->postGather = (isset($_POST))? $this->input_cleanup($_POST) : null; // input_cleanup() est placée dans ControllerInChief.php
     }
 
 
@@ -73,11 +73,17 @@ class CategoryController extends ControllerInChief
         if (empty($this->postGather)) {
             $this->realGetTable(); // leads to the current file
         } else {
-            $this->modelMethodLauncher();
-            $this->realGetTable(); // leads to the current file
+            $postChecks = $this->categoryFormChecks(); // leads to controller/ControllerInChief.php
+            if (empty($postChecks)){
+                $this->modelMethodLauncher(); // leads to the current file 
+                $this->realGetTable(); // leads to the current file                
+            } else {
+                echo $postChecks;
+                $this->realGetTable(); // leads to the current file
+            }
         }
-    }
-
+    } 
+ 
     /**
      * récupération du model à contacter ensuite
      * récupération de la methode action à effectuer
@@ -85,8 +91,7 @@ class CategoryController extends ControllerInChief
      * @access public
      * appelé par getTableActionFromGet()
      */      
-    public function modelMethodLauncher()
-    {
+    public function modelMethodLauncher() {
         $whichModel = $this->postGather['model'].'Model';
         $modelMethod = $this->postGather['action'];
         $this->$whichModel->$modelMethod($this->postGather); //leads to model/CategoryModel.php
@@ -97,8 +102,7 @@ class CategoryController extends ControllerInChief
      * @access public
      * appelé par getTableActionFromGet()
      */
-    public function realGetTable()
-    {
+    public function realGetTable() {
         $catTableData = $this->categoryModel->catTableGet(); // leads to model/CategoryModel.php
         $this->categoryTableView->catTablePrepare($catTableData); // leads to view/catview/table/CategoryTableView.php
     }
@@ -108,8 +112,7 @@ class CategoryController extends ControllerInChief
      * @access public
      * appelé par index.php
      */
-    public function addActionFromGet()
-    {
+    public function addActionFromGet() {
         $this->categoryFormView->addFormSettings(); // leads to view/catview/form/CategoryFormView.php
     }
 
@@ -118,8 +121,7 @@ class CategoryController extends ControllerInChief
      * @access public
      * appelé par index.php
      */
-    public function editActionFromGet()
-    {
+    public function editActionFromGet() {
         $this->categoryFormView->editFormSettings($this->getGather); // leads to view/catview/form/CategoryFormView.php
     }
 
@@ -128,8 +130,7 @@ class CategoryController extends ControllerInChief
      * @access public
      * appelé par index.php
      */
-    public function deleteActionFromGet()
-    {
+    public function deleteActionFromGet() {
         $this->categoryFormView->deleteFormSettings($this->getGather); // leads to view/catview/form/CategoryFormView.php
     }
 }    

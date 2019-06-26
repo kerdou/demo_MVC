@@ -64,7 +64,7 @@ class ViewInChief {
      */
     protected function htmlCharConvert($arrayToConvert){
         foreach ($arrayToConvert as $key => $value) {
-            $arrayToConvert[$key] = htmlentities($value, ENT_QUOTES);
+            $arrayToConvert[$key] = htmlentities($value, ENT_QUOTES);            
         }       
         return $arrayToConvert;
     }

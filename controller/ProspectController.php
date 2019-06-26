@@ -57,7 +57,7 @@ class ProspectController  extends ControllerInChief{
         $this->getGather = (!empty($_GET))? $_GET : array('action'=>'getTableActionFromGet');
         
         // Si le $_POST n'est pas vide, récupérer son contenu sinon le laisser tel quel
-        $this->postGather = (isset($_POST))? $_POST : null;
+        $this->postGather = (isset($_POST))? $this->input_cleanup($_POST) : null; // input_cleanup() est placée dans ControllerInChief.php
     }
 
     /**
