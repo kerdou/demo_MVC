@@ -1,3 +1,4 @@
+
 /****************************/
 /**********  NAV   **********/
 /**********        **********/
@@ -8,7 +9,7 @@ nav i{
     text-align: center;
 }  
 
-@media (width <= 989px) {
+@media screen and (max-width:989px) {
     
     nav i{    
         text-align: center;
@@ -48,7 +49,8 @@ main table a:hover i{
 }
 
 /* Columns width in wide format */
-@media (width >= 990px) {
+@media screen and (min-width:990px) {
+
     .hometables #namecolumn {width: 12%;}
     .hometables #familynamecolumn {width: 12%;}
     .hometables #adresscolumn {width: 20%;}
@@ -71,7 +73,8 @@ main table a:hover i{
 }
 
 /* Shared tables caracteristics is mobile format */
-@media (width <= 989px) {
+@media screen and (max-width:989px) {
+
 	/* Force table to not be like tables anymore */
 	.crmtables table,
     .crmtables thead,
@@ -124,7 +127,7 @@ main table a:hover i{
     /* EDIT and DELETE icons position*/
     .crmtables .editdeleteicons { 
         border-bottom: 1px solid transparent;
-        padding-top: 0;
+        padding-top: 10px;
         padding-left: 25px;
         margin-bottom: 20px;
     }
@@ -168,12 +171,8 @@ main table a:hover i{
 /*****        *******/
 
 /* Shared tables caracteristics is mobile format */
-@media (width <= 989px) {
-    
-}
 
-
-@media (width >= 990px){
+@media screen and (min-width:990px) {
 
     #formdefault {
         max-width: 75%;
