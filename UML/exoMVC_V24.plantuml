@@ -1,0 +1,341 @@
+@startuml ExoMVC_v24
+skinparam Style strictuml
+
+skinparam ClassFontSize 11
+skinparam ClassFontName Verdana
+
+together {
+    class GetAndPostCleaner {
+        +inputCleaner()
+    }
+
+    GetAndPostCleaner <|-- Launcher
+    class Launcher {
+        -$cleanedUpGet : array
+        -$cleanedUpPost : array
+        -$selectedController : string
+        --
+        +__construct()
+        +launcher()
+    }
+
+    class Autoloader {
+        {static} +register()
+        {static} +autoload()
+    }
+}
+
+
+
+
+together {
+    package controller #6A89A5 {
+        class HomeGetController {
+            -$homeModel : obj
+            -$homeView : obj
+            --
+            +__construct()
+            +displayHomePage()
+        }
+
+        package category {
+            class CategoryCommonController {
+                #$categoryModel : obj
+                #$categoryView : obj
+                --
+                +instanciateModel()
+                +displayAllCategories()
+            }
+
+            CategoryCommonController <|-- CategoryGetController
+            class CategoryGetController {
+                -$getContent : array
+                --
+                +__construct()
+                +actionReceiver()
+            }
+
+            CategoryCommonController <|-- CategoryPostController
+            class CategoryPostController {
+                -$postContent : array
+                --
+                +actionReceiver()
+            }
+        }
+
+        package client {
+            class ClientCommonController {
+                #$clientModel : obj
+                #$clientTableView : obj
+                --
+                +instanciateModel()
+                +displayClientPage()
+            }
+
+            ClientCommonController <|-- ClientGetController
+            class ClientGetController {
+                -$getContent : array
+                -$clientFormView : obj
+                --
+                +__construct()
+                +actionReceiver()
+            }
+
+            ClientCommonController <|-- ClientPostController
+            class ClientPostController {
+                -$postContent : array
+                --
+                +actionReceiver()
+            }
+
+        }
+
+        package prospect {
+            class ProspectCommonController {
+                #$prospectModel : obj
+                #$prospectTableView : obj
+                --
+                +instanciateModel()
+                +displayProspPage()
+            }
+
+            ProspectCommonController <|-- ProspectGetController
+            class ProspectGetController {
+                -$getContent : array
+                -$prospectFormView : obj
+                --
+                +__construct()
+                +actionReceiver()
+            }
+
+            ProspectCommonController <|-- ProspectPostController
+            class ProspectPostController {
+                -$postContent : array
+                --
+                +actionReceiver()
+            }
+
+
+        }
+
+        package formsChecks {
+            class ProspClientFormsChecks {
+                +prospClientFormChecks()
+            }
+
+            class CatFormsChecks {
+                +catFormInputChecks()
+            }
+        }
+    }
+}
+
+
+together {
+    package model #6A89A5 {
+        class DBSettings {
+            #HOST : string
+            #BASE : string
+            #USER : string
+            #PASSWORD : string
+        }
+
+        DBSettings <|-- ModelInChief
+        class ModelInChief {
+        #$dbConnect : obj
+        #$query : obj
+        --
+        +__construct()
+        #pdoQueryExecute()
+        }
+
+        ModelInChief <|-- HomeModel
+        class HomeModel {
+            +selectThreeLastProspAndThreeLastClients()
+        }
+
+        ModelInChief <|-- ClientModel
+        class ClientModel {
+            +selectAllClients()
+            +addClient()
+            +editClient()
+            +deleteClient()
+        }
+
+        ModelInChief <|-- ProspectModel
+        class ProspectModel {
+            +selectAllProspects()
+            +addProspect()
+            +editProspect()
+            +deleteProspect()
+        }
+
+        ModelInChief <|-- CategoryModel
+        class CategoryModel {
+            +selectAllCategories()
+            +addCategory()
+            +editCategory()
+            +deleteCategory()
+        }
+    }
+}
+
+
+together {
+    package view #6A89A5 {
+        class ViewInChief {
+        #$pageContent : obj
+        --
+        #pageSetup()
+        #tableSetup()
+        #pageDisplay()
+        }
+
+        ViewInChief <|-- TableBuilder
+        class TableBuilder {
+            {static} +clientAndProspTableRowBuilder()
+            {static} +categoryTableRowWithButtonsBuilder()
+            {static} +prospAndClientTableRowWithButtonsBuilder()
+        }
+
+        package homeview #4277A5 {
+            ViewInChief <|-- HomeView
+            class HomeView {
+                -$pageSettingsList : array
+                --
+                +__construct()
+                +buildOrder()
+                -tableRowsBuilder()
+            }
+        }
+
+        package prospclientview #4277A5 {
+
+            ViewInChief <|-- ProspClientFormAndTableConfigurator
+            class ProspClientFormAndTableConfigurator {
+                #prospClientFormConfigurator()
+                #tableRowsBuilder()
+            }
+
+            package clientview #3A86C8 {
+
+                ProspClientFormAndTableConfigurator <|-- ClientPageAssemblyLine
+                class ClientPageAssemblyLine {
+                    +pageSettingsListStorage()
+                }
+
+                package form_clientview #47aaff {
+
+                    ClientPageAssemblyLine <|-- ClientFormAssemblyLine
+                    class ClientFormAssemblyLine {
+                        #formSettingsListStorage()
+                    }
+
+                    ClientFormAssemblyLine <|-- ClientFormViewBuilder
+                    class ClientFormViewBuilder {
+                        +buildOrder()
+                    }
+                }
+
+
+                package table_clientview #47aaff {
+
+                    ClientPageAssemblyLine <|-- ClientTableAssemblyLine
+                    class ClientTableAssemblyLine {
+                        #$tableSettingsList : array
+                        --
+                        +__construct()
+                    }
+
+                    ClientTableAssemblyLine <|-- ClientTableViewBuilder
+                    class ClientTableViewBuilder {
+                        +buildOrder()
+                    }
+                }
+            }
+
+            package prospview #3A86C8 {
+
+                ProspClientFormAndTableConfigurator <|-- ProspPageAssemblyLine
+                class ProspPageAssemblyLine {
+                    +pageSettingsListStorage()
+                }
+
+                package form_prospview #47aaff {
+
+                    ProspPageAssemblyLine <|-- ProspFormAssemblyLine
+                    class ProspFormAssemblyLine {
+                        #formSettingsListStorage()
+                    }
+
+                    ProspFormAssemblyLine <|-- ProspFormViewBuilder
+                    class ProspFormViewBuilder {
+                        +buildOrder()
+                    }
+                }
+
+                package table_prospview #47aaff {
+
+                    ProspPageAssemblyLine <|-- ProspTableAssemblyLine
+                    class ProspTableAssemblyLine {
+                        #$tableSettingsList : array
+                        --
+                        +__construct()
+                    }
+
+                    ProspTableAssemblyLine <|-- ProspTableViewBuilder
+                    class ProspTableViewBuilder {
+                        +buildOrder()
+                    }
+                }
+            }
+        }
+
+        package catview #4277A5 {
+
+            ViewInChief <|-- CatPageAssemblyLine
+            class CatPageAssemblyLine {
+                #pageSettingsListStorage()
+            }
+
+            package form_catview #3A86C8 {
+
+                CatPageAssemblyLine <|-- CatFormAssemblyLine
+                class CatFormAssemblyLine {
+                    #formsSettingsListStorage()
+                    #catFormConfigurator()
+                }
+
+                CatFormAssemblyLine <|-- CatFormViewBuilder
+                class CatFormViewBuilder {
+                    +buildOrder()
+                }
+            }
+
+            package table_catview #3A86C8 {
+
+                CatPageAssemblyLine <|-- CatTableAssemblyLine
+                class CatTableAssemblyLine {
+                    #$tableSettingsList : array
+                    --
+                    +__construct()
+                    #tableRowsBuilder()
+                }
+
+                CatTableAssemblyLine <|-- CatTableViewBuilder
+                class CatTableViewBuilder {
+                    +buildOrder()
+                }
+
+            }
+        }
+    }
+
+Launcher -[hidden]--> HomeGetController
+GetAndPostCleaner -[hidden]> model
+HomeGetController -[hidden]-> formsChecks
+formsChecks -[hidden]-> view
+ViewInChief -[hidden]> TableBuilder
+}
+
+@enduml

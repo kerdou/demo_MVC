@@ -1,0 +1,264 @@
+@startuml
+skinparam Style strictuml
+
+skinparam ClassFontSize 11
+skinparam ClassFontName Verdana
+
+together {
+    package controller #6A89A5 {
+        class ControllerInChief {
+            ControllerInChief.php
+            --
+            #input_cleanup()
+            #categoryFormChecks()
+            #prospClientFormChecks()
+        }
+
+        ControllerInChief <|-- HomeController
+        class HomeController {
+            HomeController.php
+            --
+            -$homeTableView : obj
+            -$homeModel : obj
+            -$getGather : array
+            --
+            +__construct()
+            +getTableActionFromGet()
+        }
+
+        ControllerInChief <|-- ClientController
+        class ClientController {
+            ClientController.php
+            --
+            -$clientTableView : obj
+            -$clientFormView : obj
+            -$clientModel : obj
+            -$getGather : array
+            -$postGather : array
+            --
+            +__construct()
+            +getTableActionFromGet()
+            +modelMethodLauncher()
+            +realGetTable()
+            +addActionFromGet()
+            +editActionFromGet()
+            +deleteActionFromGet()
+        }
+
+        ControllerInChief <|-- ProspectController
+        class ProspectController {
+            ProspectController.php
+            --
+            -$prospectTableView : obj
+            -$prospectFormView : obj
+            -$prospectModel : obj
+            -$getGather : array
+            -$postGather : array
+            --
+            +__construct()
+            +getTableActionFromGet()
+            +modelMethodLauncher()
+            +realGetTable()
+            +addActionFromGet()
+            +editActionFromGet()
+            +deleteActionFromGet()
+        }
+
+        ControllerInChief <|-- CategoryController
+        class CategoryController {
+            CategoryController.php
+            --
+            -$categoryTableView : obj
+            -$categoryFormView : obj
+            -$categoryModel : obj
+            -$getGather : array
+            -$postGather : array
+            --
+            +__construct()
+            +getTableActionFromGet()
+            +modelMethodLauncher()
+            +realGetTable()
+            +addActionFromGet()
+            +editActionFromGet()
+            +deleteActionFromGet()
+        }
+    }
+}
+
+
+together {
+    package model #6A89A5 {
+        class ModelInChief {
+        ModelInChief.php
+        --
+        #$dbConnect : obj
+        #$request : array
+        --
+        +__construct()
+        #executeTryCatch()
+        }
+
+        ModelInChief <|-- HomeModel
+        class HomeModel {
+            HomeModel.php
+            --
+            +homeTableGet()
+        }
+
+        ModelInChief <|-- ClientModel
+        class ClientModel {
+            ClientModel.php
+            --
+            +getClientTable()
+            +add()
+            +edit()
+            +delete()
+        }
+
+        ModelInChief <|-- ProspectModel
+        class ProspectModel {
+            ProspectModel.php
+            --
+            +getProspTable()
+            +add()
+            +edit()
+            +delete()
+        }
+
+        ModelInChief <|-- CategoryModel
+        class CategoryModel {
+            CategoryModel.php
+            --
+            +catTableGet()
+            +add()
+            +edit()
+            +delete()
+        }
+    }
+}
+
+
+together {
+    package view #6A89A5 {
+        class ViewInChief {
+        ViewInChief.php
+        --
+        #$pageContent : obj
+        --
+        +__construct()
+        #pageSetup()
+        #htmlCharConvert()
+        #tableSetup()
+        #pageDisplay()
+        }
+
+        package homeview #4277A5 {
+            ViewInChief <|-- HomeView
+            class HomeView {
+                HomeView.php
+                --
+                #pageSettings()
+            }
+
+            HomeView <|-- HomeTableView
+            class HomeTableView {
+                HomeTableView.php
+                --
+                +tablePrepare()
+            }
+        }
+
+        package prospclientview #4277A5 {
+            ViewInChief <|-- ProspectClientView
+            class ProspectClientView {
+                ProspectClientView.php
+                --
+                #prospClientFormSetup()
+            }
+
+            package clientview #3A86C8 {
+                ProspectClientView <|-- ClientView
+                class ClientView {
+                    ClientView.php
+                    --
+                    #pageSettings()
+                }
+
+                ClientView <|-- ClientFormView
+                class ClientFormView {
+                    ClientFormView.php
+                    --
+                    +addFormSettings()
+                    +editFormSettings()
+                    +deleteFormSettings()
+                }
+
+                ClientView <|-- ClientTableView
+                class ClientTableView {
+                    ClientTableView.php
+                    --
+                    +tableSettings()
+                    +tablePrepare()
+                }
+            }
+
+            package prospview #3A86C8 {
+                ProspectClientView <|-- ProspectView
+                class ProspectView {
+                    ProspectView.php
+                    --
+                    #pageSettings()
+                }
+
+                ProspectView <|-- ProspectFormView
+                class ProspectFormView {
+                    ProspectFormView.php
+                    --
+                    +addFormSettings()
+                    +editFormSettings()
+                    +deleteFormSettings()
+                }
+
+                ProspectView <|-- ProspectTableView
+                class ProspectTableView {
+                    ProspectTableView.php
+                    --
+                    +tableSettings()
+                    +tablePrepare()
+                }
+            }
+        }
+
+        package catview #4277A5 {
+            ViewInChief <|-- CategoryView
+            class CategoryView {
+                CategoryView.php
+                --
+                #pageSettings()
+            }
+
+            CategoryView <|-- CategoryFormView
+            class CategoryFormView {
+                CategoryFormView.php
+                --
+                +addFormSettings()
+                +editFormSettings()
+                +deleteFormSettings()
+                +catFormSetup()
+            }
+
+            CategoryView <|-- CategoryTableView
+            class CategoryTableView {
+                CategoryTableView.php
+                --
+                +tableSettings()
+                +catTablePrepare()
+            }
+        }
+    }
+}
+
+ControllerInChief -[hidden] ModelInChief
+ControllerInChief -[hidden]--> ViewInChief
+
+@enduml
