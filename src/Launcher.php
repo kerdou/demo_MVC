@@ -6,9 +6,9 @@ use MVCExo\Autoloader;
 
 Autoloader::register();
 
-    /** Fonction de dispatch qui lance tout le reste
-     * * Récupération et analyse du contenu de $_GET['controller'] et $_GET['action']
-     */
+/** Classe de dispatch qui lance tout le reste
+ * * Récupération et analyse du contenu de $_GET['controller'] et $_GET['action']
+ */
 class Launcher extends GetAndPostCleaner
 {
     private array $cleanedUpGet; // Recoit les données du $_GET une fois nettoyées
@@ -24,66 +24,56 @@ class Launcher extends GetAndPostCleaner
 
         // récupération du controleur voulu, si aucun n'est précisé on part sur 'home'
         $this->selectedController = (isset($this->cleanedUpGet['controller'])) ? $this->cleanedUpGet['controller'] : 'home';
-        $this->launcher(); // lancement du launcher()
+        $this->launcher();
     }
 
 
     /** Lancement du controleur voulu, si aucun ne correspond on part sur HomeGetController
-     * * Si $_POST est vide ça veut dire que le user vient de cliquer sur un lien de nav et que toutes les informations sont dans le $GET.
-     * * Donc on part sur un GetController
-     *
-     * * Si $_POST n'est pas vide, ça veut dire que le user vient de submit un formulaire et que toutes les infos necessaires sont dans $_POST
-     * * Donc on part sur un PostController
+     * * Tout se fait par le cleanedUpGet['controller'], le cleanedUpPost n'est jamais sollicité
+     * * Les cases finissant par Post viennent des submits de formulaires, les autres viennent des liens de nav
+     * * Cette technique empeche l'insertion de données venant du $_POST en appuyant sur F5 puisque le $_POST n'est pas sollicité
      */
-    public function launcher()
+    private function launcher()
     {
-        if (empty($this->cleanedUpPost)) {
-            switch ($this->selectedController) {
-                case 'home':
-                    $controllerObj = new \MVCExo\controller\HomeGetController();
-                    $controllerObj->displayHomePage($this->cleanedUpGet);
-                    break;
+        switch ($this->selectedController) {
+            case 'home':
+                $controllerObj = new \MVCExo\controller\HomeGetController();
+                $controllerObj->displayHomePage($this->cleanedUpGet);
+                break;
 
-                case 'category':
-                    $controllerObj = new \MVCExo\controller\category\CategoryGetController();
-                    $controllerObj->actionReceiver($this->cleanedUpGet);
-                    break;
+            case 'category':
+                $controllerObj = new \MVCExo\controller\category\CategoryGetController();
+                $controllerObj->actionReceiver($this->cleanedUpGet);
+                break;
 
-                case 'prospect':
-                    $controllerObj = new \MVCExo\controller\prospect\ProspectGetController();
-                    $controllerObj->actionReceiver($this->cleanedUpGet);
-                    break;
+            case 'categoryPost':
+                $controllerObj = new \MVCExo\controller\category\CategoryPostController();
+                $controllerObj->actionReceiver($this->cleanedUpPost);
+                break;
 
-                case 'client':
-                    $controllerObj = new \MVCExo\controller\client\ClientGetController();
-                    $controllerObj->actionReceiver($this->cleanedUpGet);
-                    break;
+            case 'prospect':
+                $controllerObj = new \MVCExo\controller\prospect\ProspectGetController();
+                $controllerObj->actionReceiver($this->cleanedUpGet);
+                break;
 
-                default:
-                    $controllerObj = new \MVCExo\controller\HomeGetController();
-                    $controllerObj->displayHomePage($this->cleanedUpGet);
-            }
-        } else {
-            switch ($this->selectedController) {
-                case 'category':
-                    $controllerObj = new \MVCExo\controller\category\CategoryPostController();
-                    $controllerObj->actionReceiver($this->cleanedUpPost);
-                    break;
+            case 'prospectPost':
+                $controllerObj = new \MVCExo\controller\prospect\ProspectPostController();
+                $controllerObj->actionReceiver($this->cleanedUpPost);
+                break;
 
-                case 'prospect':
-                    $controllerObj = new \MVCExo\controller\prospect\ProspectPostController();
-                    $controllerObj->actionReceiver($this->cleanedUpPost);
-                    break;
+            case 'client':
+                $controllerObj = new \MVCExo\controller\client\ClientGetController();
+                $controllerObj->actionReceiver($this->cleanedUpGet);
+                break;
 
-                case 'client':
-                    $controllerObj = new \MVCExo\controller\client\ClientPostController();
-                    $controllerObj->actionReceiver($this->cleanedUpPost);
-                    break;
+            case 'clientPost':
+                $controllerObj = new \MVCExo\controller\client\ClientPostController();
+                $controllerObj->actionReceiver($this->cleanedUpPost);
+                break;
 
-                default:
-                    $controllerObj = new \MVCExo\controller\HomeGetController();
-                    $controllerObj->displayHomePage($this->cleanedUpPost);
-            }
+            default:
+                $controllerObj = new \MVCExo\controller\HomeGetController();
+                $controllerObj->displayHomePage($this->cleanedUpGet);
         }
     }
 }

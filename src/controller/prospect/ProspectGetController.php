@@ -10,39 +10,30 @@ Autoloader::register();
 /** Controleur de la section 'catégorie' */
 class ProspectGetController extends ProspectCommonController
 {
-    private array $getContent = array(); // Données provenants de $_GET
-    private object $prospectFormView; // Objet d'affichage des formulaires de la section catégorie
-
-
-    /** Construction automatique des objets et récupération de $_GET et $_POST */
-    public function __construct()
-    {
-        $this->prospectFormView = new \MVCExo\view\prospclientview\prospview\form\ProspFormViewBuilder();
-    }
-
-
     /** Récupére le $_GET['action'] et lance l'action voulue */
     public function actionReceiver($cleanedUpGet)
     {
-        $this->getContent = $cleanedUpGet;
         $this->instanciateModel(); // instanciation du modele
 
-        if (isset($this->getContent['action'])) {
-            switch ($this->getContent['action']) {
+        if (isset($cleanedUpGet['action'])) {
+            switch ($cleanedUpGet['action']) {
                 case 'getTable':
                     $this->displayProspPage();
                     break;
 
                 case 'add':
-                    $this->prospectFormView->buildOrder('displayProspAddForm');
+                    $prospectFormView = new \MVCExo\view\prospclientview\prospview\form\ProspFormViewBuilder();
+                    $prospectFormView->buildOrder('displayProspAddForm');
                     break;
 
                 case 'edit':
-                    $this->prospectFormView->buildOrder('displayProspEditForm', $this->getContent);
+                    $prospectFormView = new \MVCExo\view\prospclientview\prospview\form\ProspFormViewBuilder();
+                    $prospectFormView->buildOrder('displayProspEditForm', $cleanedUpGet);
                     break;
 
                 case 'delete':
-                    $this->prospectFormView->buildOrder('displayProspDeleteForm', $this->getContent);
+                    $prospectFormView = new \MVCExo\view\prospclientview\prospview\form\ProspFormViewBuilder();
+                    $prospectFormView->buildOrder('displayProspDeleteForm', $cleanedUpGet);
                     break;
 
                 default:
@@ -51,5 +42,17 @@ class ProspectGetController extends ProspectCommonController
         } else {
             $this->displayProspPage();
         }
+    }
+
+
+    /** Récupération des données des catégories puis affichage de ces données dans le tableau
+     * * Si on met $prospectTableView dans __constuct, ça plante. L'init se passe trop tôt.
+     * * Avec cette méthode on contourne le probléme.
+     */
+    private function displayProspPage()
+    {
+        $tableData = $this->prospectModel->selectAllProspects();
+        $prospectTableView = new \MVCExo\view\prospclientview\prospview\table\ProspTableViewBuilder();
+        $prospectTableView->buildOrder($tableData);
     }
 }

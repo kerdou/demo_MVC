@@ -18,7 +18,7 @@ abstract class ProspFormAssemblyLine extends \MVCExo\view\prospclientview\prospv
                     "formTitle" => "Ajout d'un prospect",
                     "readonly_inputs" => "",
 
-                    "formAction" => "index.php?controller=prospect",
+                    "formAction" => "index.php?controller=prospectPost",
 
                     "catIdRowHide" => "d-none",
                     "catIdValue" => "",
@@ -48,7 +48,7 @@ abstract class ProspFormAssemblyLine extends \MVCExo\view\prospclientview\prospv
                     "formTitle" => "Modification d'un prospect",
                     "readonly_inputs" => "",
 
-                    "formAction" => "index.php?controller=prospect",
+                    "formAction" => "index.php?controller=prospectPost",
 
                     "catIdRowHide" => "d-none",
                     "catIdValue" => $prospTableData['catId'],
@@ -78,7 +78,7 @@ abstract class ProspFormAssemblyLine extends \MVCExo\view\prospclientview\prospv
                     "formTitle" => "Suppression d'un prospect",
                     "readonly_inputs" => "readonly",
 
-                    "formAction" => "index.php?controller=prospect",
+                    "formAction" => "index.php?controller=prospectPost",
 
                     "catIdRowHide" => "d-none",
                     "catIdValue" => $prospTableData['catId'],

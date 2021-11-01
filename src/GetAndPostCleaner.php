@@ -8,7 +8,7 @@ Autoloader::register();
 
 abstract class GetAndPostCleaner
 {
-    /** Fonction nettoyant les données envoyées dans le $_GET et le $_POST */
+    // Fonction nettoyant les données envoyées dans le $_GET et le $_POST
     protected function inputCleaner(array $inputData)
     {
         $cleanedUpArray = array();

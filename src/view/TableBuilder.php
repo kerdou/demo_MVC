@@ -44,7 +44,19 @@ class TableBuilder extends ViewInChief
         $rowArray = array();
 
         foreach ($tableData as $rowValue) {
-            $row =
+
+            // empeche l'apparition des boutons d'édition et de suppression des ID des catégorie clients et des prospects.
+            // Si les catId 1 et 2 sont supprimés, on ne peut plus créer de clients ou de prospects
+            if (($rowValue['catId'] == 1) || ($rowValue['catId'] == 2)) {
+                $row =
+                '<tr>' .
+                    "<td>$rowValue[catName]</td>" .
+                    "<td>$rowValue[catDescript]</td>" .
+                    '<td class="text-center">
+                    </td>
+                    </tr>';
+            } else {
+                $row =
                 '<tr>' .
                     "<td>$rowValue[catName]</td>" .
                     "<td>$rowValue[catDescript]</td>" .
@@ -58,8 +70,8 @@ class TableBuilder extends ViewInChief
                         </a>
                     </td>
                 </tr>';
-
-                array_push($rowArray, $row);
+            }
+            array_push($rowArray, $row);
         }
 
         return $rowArray;

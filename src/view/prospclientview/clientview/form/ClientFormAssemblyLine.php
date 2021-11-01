@@ -18,7 +18,7 @@ abstract class ClientFormAssemblyLine extends \MVCExo\view\prospclientview\clien
                     "formTitle" => "Ajout d'un client",
                     "readonly_inputs" => "",
 
-                    "formAction" => "index.php?controller=client",
+                    "formAction" => "index.php?controller=clientPost",
 
                     "catIdRowHide" => "d-none",
                     "catIdValue" => "",
@@ -48,7 +48,7 @@ abstract class ClientFormAssemblyLine extends \MVCExo\view\prospclientview\clien
                     "formTitle" => "Modification d'un client",
                     "readonly_inputs" => "",
 
-                    "formAction" => "index.php?controller=client",
+                    "formAction" => "index.php?controller=clientPost",
 
                     "catIdRowHide" => "d-none",
                     "catIdValue" => $clientTableData['catId'],
@@ -78,7 +78,7 @@ abstract class ClientFormAssemblyLine extends \MVCExo\view\prospclientview\clien
                     "formTitle" => "Suppression d'un client",
                     "readonly_inputs" => "readonly",
 
-                    "formAction" => "index.php?controller=client",
+                    "formAction" => "index.php?controller=clientPost",
 
                     "catIdRowHide" => "d-none",
                     "catIdValue" => $clientTableData['catId'],

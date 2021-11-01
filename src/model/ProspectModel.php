@@ -30,6 +30,7 @@ class ProspectModel extends ModelInChief
      */
     public function addProspect(array $postGather)
     {
+        //var_dump($postGather);
         $stmt = 'INSERT INTO user VALUES (NULL, :usFirstname, :usLastname, :usAddress, :usPostcode, :usCity, :usComment, "1", NOW())';
         $this->query = $this->pdo->prepare($stmt);
         $this->query->bindParam(':usFirstname', $postGather['usFirstname']);

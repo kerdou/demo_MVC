@@ -9,56 +9,51 @@ Autoloader::register();
 /** Controleur de la section 'catégorie' */
 class ClientPostController extends ClientCommonController
 {
-    private array $postContent = array(); // Données nettoyées provenants de $_POST
-
-    /** Récupére [$_POST['action']], lance la modif de DB voulue puis lance l'affichage de la page necessaire
-     * * Les header('location: DESTINATION') permettent de vider le $_POST pour éviter de renvoyer une commande du $_POST à cause d'un appui sur F5
-     */
+    /** Récupére [$_POST['action']], lance la modif de DB voulue puis lance l'affichage de la page necessaire */
     public function actionReceiver(array $cleanedUpPost)
     {
-        $this->postContent = $cleanedUpPost;
         $this->instanciateModel(); // instanciation du modéle
 
-        if (isset($this->postContent['action'])) {
-            switch ($this->postContent['action']) {
+        if (isset($cleanedUpPost['action'])) {
+            switch ($cleanedUpPost['action']) {
                 case 'add':
                     $clientFormChecker = new \MVCExo\controller\formsChecks\ProspClientFormsChecks();
-                    $checkErrorMessage = $clientFormChecker->prospClientFormChecks($this->postContent); // vérif de la conformité des données de $postContent
+                    $checkErrorMessage = $clientFormChecker->prospClientFormChecks($cleanedUpPost); // vérif de la conformité des données de $postContent
 
                     if (empty($checkErrorMessage)) {
-                        $this->clientModel->addClient($this->postContent);
-                        header('location: index.php?controller=client');
+                        $this->clientModel->addClient($cleanedUpPost);
+                        echo "<script> window.location.replace('index.php?controller=client') </script>";
                     } else {
                         echo $checkErrorMessage;
-                        header('refresh:0; url=index.php?controller=client');
+                        echo "<script> window.location.replace('index.php?controller=client') </script>";
                     }
                     break;
 
                 case 'edit':
                     $clientFormChecker = new \MVCExo\controller\formsChecks\ProspClientFormsChecks();
-                    $checkErrorMessage = $clientFormChecker->prospClientFormChecks($this->postContent); // vérif de la conformité des données de $postContent
+                    $checkErrorMessage = $clientFormChecker->prospClientFormChecks($cleanedUpPost); // vérif de la conformité des données de $postContent
 
                     if (empty($checkErrorMessage)) {
-                        $this->clientModel->editClient($this->postContent);
-                        header('location: index.php?controller=client');
+                        $this->clientModel->editClient($cleanedUpPost);
+                        echo "<script> window.location.replace('index.php?controller=client') </script>";
                     } else {
                         echo $checkErrorMessage;
-                        header('refresh:0; url=index.php?controller=client');
+                        echo "<script> window.location.replace('index.php?controller=client') </script>";
                     }
                     break;
 
                 case 'delete':
                     if (empty($checkErrorMessage)) {
-                        $this->clientModel->deleteClient($this->postContent);
+                        $this->clientModel->deleteClient($cleanedUpPost);
                     }
-                    header('location: index.php?controller=client');
+                    echo "<script> window.location.replace('index.php?controller=client') </script>";
                     break;
 
                 default:
-                    header('location: index.php?controller=client');
+                    echo "<script> window.location.replace('index.php?controller=client') </script>";
             }
         } else {
-            header('location: index.php?controller=client');
+            echo "<script> window.location.replace('index.php?controller=client') </script>";
         }
     }
 }

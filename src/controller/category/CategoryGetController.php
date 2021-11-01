@@ -9,36 +9,30 @@ Autoloader::register();
 /** Controleur de la section 'catégorie' */
 class CategoryGetController extends CategoryCommonController
 {
-    private array $getContent = array(); // Données provenants de $_GET
-
-    public function __construct()
-    {
-        $this->categoryFormView = new \MVCExo\view\catview\form\CatFormViewBuilder();
-    }
-
-
     /** Récupére [$_GET['action']] et lance l'affichage de la page voulue */
     public function actionReceiver(array $cleanedUpGet)
     {
-        $this->getContent = $cleanedUpGet;
         $this->instanciateModel();
 
-        if (isset($this->getContent['action'])) {
-            switch ($this->getContent['action']) {
+        if (isset($cleanedUpGet['action'])) {
+            switch ($cleanedUpGet['action']) {
                 case 'getTable':
                     $this->displayAllCategories();
                     break;
 
                 case 'add':
-                    $this->categoryFormView->buildOrder('displayCatAddForm');
+                    $categoryFormView = new \MVCExo\view\catview\form\CatFormViewBuilder();
+                    $categoryFormView->buildOrder('displayCatAddForm');
                     break;
 
                 case 'edit':
-                    $this->categoryFormView->buildOrder('displayCatEditForm', $this->getContent);
+                    $categoryFormView = new \MVCExo\view\catview\form\CatFormViewBuilder();
+                    $categoryFormView->buildOrder('displayCatEditForm', $cleanedUpGet);
                     break;
 
                 case 'delete':
-                    $this->categoryFormView->buildOrder('displayCatDeleteForm', $this->getContent);
+                    $categoryFormView = new \MVCExo\view\catview\form\CatFormViewBuilder();
+                    $categoryFormView->buildOrder('displayCatDeleteForm', $cleanedUpGet);
                     break;
 
                 default:
@@ -47,5 +41,17 @@ class CategoryGetController extends CategoryCommonController
         } else {
             $this->displayAllCategories();
         }
+    }
+
+
+    /** Récupération des données des catégories puis affichage de ces données dans le tableau
+     * * Si on met met $categoryTableView dans __constuct, ça plante. L'init se passe trop tôt.
+     * * Avec cette méthode on contourne le probléme.
+     */
+    private function displayAllCategories()
+    {
+        $catTableData = $this->categoryModel->selectAllCategories();
+        $this->categoryTableView = new \MVCExo\view\catview\table\CatTableViewBuilder();
+        $this->categoryTableView->buildOrder($catTableData);
     }
 }

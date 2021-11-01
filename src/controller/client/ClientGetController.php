@@ -9,37 +9,30 @@ Autoloader::register();
 /** Controleur de la section 'catégorie' */
 class ClientGetController extends ClientCommonController
 {
-    private array $getContent = array(); // Données provenants de $_GET
-    private object $clientFormView; // Objet d'affichage des formulaires de la section catégorie
-
-    public function __construct()
-    {
-        $this->clientFormView = new \MVCExo\view\prospclientview\clientview\form\ClientFormViewBuilder();
-    }
-
-
     /** Récupére [$_GET['action']] et lance l'affichage de la page voulue */
     public function actionReceiver(array $cleanedUpGet)
     {
-        $this->getContent = $cleanedUpGet;
         $this->instanciateModel(); // instanciation du modéle
 
-        if (isset($this->getContent['action'])) {
-            switch ($this->getContent['action']) {
+        if (isset($cleanedUpGet['action'])) {
+            switch ($cleanedUpGet['action']) {
                 case 'getTable':
                     $this->displayClientPage();
                     break;
 
                 case 'add':
-                    $this->clientFormView->buildOrder('displayClientAddForm');
+                    $clientFormView = new \MVCExo\view\prospclientview\clientview\form\ClientFormViewBuilder();
+                    $clientFormView->buildOrder('displayClientAddForm');
                     break;
 
                 case 'edit':
-                    $this->clientFormView->buildOrder('displayClientEditForm', $this->getContent);
+                    $clientFormView = new \MVCExo\view\prospclientview\clientview\form\ClientFormViewBuilder();
+                    $clientFormView->buildOrder('displayClientEditForm', $cleanedUpGet);
                     break;
 
                 case 'delete':
-                    $this->clientFormView->buildOrder('displayClientDeleteForm', $this->getContent);
+                    $clientFormView = new \MVCExo\view\prospclientview\clientview\form\ClientFormViewBuilder();
+                    $clientFormView->buildOrder('displayClientDeleteForm', $cleanedUpGet);
                     break;
 
                 default:
@@ -48,5 +41,17 @@ class ClientGetController extends ClientCommonController
         } else {
             $this->displayClientPage();
         }
+    }
+
+
+    /** Récupération des données des catégories puis affichage de ces données dans le tableau
+     * * Si on met met $categoryTableView dans __constuct, ça plante. L'init se passe trop tôt.
+     * * Avec cette méthode on contourne le probléme.
+     */
+    private function displayClientPage()
+    {
+        $tableData = $this->clientModel->selectAllClients();
+        $clientTableView = new \MVCExo\view\prospclientview\clientview\table\ClientTableViewBuilder();
+        $clientTableView->buildOrder($tableData);
     }
 }
