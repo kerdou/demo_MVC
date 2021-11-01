@@ -15,18 +15,23 @@ abstract class ModelInChief
     /** Construction du PDO */
     public function __construct()
     {
-        require_once "model/dbSettings.php"; // fichier de configuration de la connexion à la DB
+        require_once "dbSettings.php"; // fichier de configuration de la connexion à la DB
 
-        if (PHP_OS != 'WINNT') { // si l'OS est Windows, on est local
-            $host = REMHOST;
-            $base = REMBASE;
-            $user = REMUSER;
-            $password = REMPASSWORD;
-        } else { // sinon c'est un host externe sous Linux
-            $host = LOCHOST;
-            $base = LOCBASE;
-            $user = LOCUSER;
-            $password = LOCPASSWORD;
+        $hostmode = 'local';
+
+        // utilise les identifiants de cnx au serveur SQL suivant le mode choisi
+        switch ($hostmode) {
+            case 'local':
+                $host = LOCHOST;
+                $base = LOCBASE;
+                $user = LOCUSER;
+                $password = LOCPASSWORD;
+                break;
+            case 'remote':
+                $host = REMHOST;
+                $base = REMBASE;
+                $user = REMUSER;
+                $password = REMPASSWORD;
         }
 
         $this->pdoInit($host, $base, $user, $password);
@@ -51,7 +56,8 @@ abstract class ModelInChief
                 $password
             );
         } catch (\Exception $e) {
-            echo 'Erreur : ' . $e->getMessage();
+            echo 'Error : ' . $e->getMessage();
+            throw $e; // permet d'arrêter le script et d'ajouter l'erreur dans les logs Apache (merci Reno!)
         }
         $this->pdo->exec("SET CHARACTER SET utf8");
     }
@@ -63,7 +69,8 @@ abstract class ModelInChief
         try {
             $this->query->execute();
         } catch (\Exception $e) {
-            die('Error : ' . $e->getMessage());
+            echo 'Error : ' . $e->getMessage();
+            throw $e; // permet d'arrêter le script et d'ajouter l'erreur dans les logs Apache (merci Reno!)
         }
 
         $this->query->closeCursor();
