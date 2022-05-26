@@ -15,7 +15,7 @@
 - The design was free but demanded the use of Bootstrap and being responsive oriented
 - Since it is PHP focused, the field validation is only made on the backend side
 - I later reworked it on order to make it more readable
-- I also used the PHP namespace during that rework out of curiosity
+- I also used namespace and PHP autoloader out of curiosity during that rework
 - This rework also served as a template for the HealthKerd project
 
 
