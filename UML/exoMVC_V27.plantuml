@@ -1,10 +1,7 @@
-@startuml ExoMVC_v25
-skinparam Style strictuml
+@startuml ExoMVC_v27
 
 skinparam ClassFontSize 11
 skinparam ClassFontName Verdana
-
-
 
 
 together {
@@ -26,8 +23,6 @@ together {
         {static} -autoload()
     }
 }
-
-
 
 
 together {
