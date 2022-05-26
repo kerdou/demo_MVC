@@ -17,21 +17,21 @@ abstract class ModelInChief
     {
         require_once "dbSettings.php"; // fichier de configuration de la connexion à la DB
 
-        $hostmode = 'local';
+        $hostmode = 'dev';
 
         // utilise les identifiants de cnx au serveur SQL suivant le mode choisi
         switch ($hostmode) {
-            case 'local':
-                $host = LOCHOST;
-                $base = LOCBASE;
-                $user = LOCUSER;
-                $password = LOCPASSWORD;
+            case 'dev':
+                $host = DEVHOST;
+                $base = DEVBASE;
+                $user = DEVUSER;
+                $password = DEVPASSWORD;
                 break;
-            case 'remote':
-                $host = REMHOST;
-                $base = REMBASE;
-                $user = REMUSER;
-                $password = REMPASSWORD;
+            case 'prod':
+                $host = PRODHOST;
+                $base = PRODBASE;
+                $user = PRODUSER;
+                $password = PRODPASSWORD;
         }
 
         $this->pdoInit($host, $base, $user, $password);
