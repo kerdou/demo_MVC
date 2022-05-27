@@ -18,6 +18,9 @@
 - I also used namespace and PHP autoloader out of curiosity during that rework
 - This rework also served as a template for the HealthKerd project
 
+## :star: Highlights <a name = "highlights"></a>
+
+- While most of the UI is made with Bootstrap, I decided to use a different approach regarding the mobile version of the table
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 
