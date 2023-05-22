@@ -20,36 +20,36 @@ class CatFormsChecks
         $catDescriptChecks = false; //@var bool renverra le résultat du test du description
 
         // Regex du nom de la catégorie
-        $nameBeginning = "^([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+";
-        // ^                                                                        Doit être situé au début de la phrase
-        //  (                                                                )+     Doit inclure au moins 1 des caractères situés dans la liste suivante
-        //   [a-zàáâäçèéêëìíîïñòóôöùúûü]+(                                 )*       Doit commencer par au moins 1 des caractères de la liste, la suite n'est pas obligatoire
-        //                                ( |')[a-zàáâäçèéêëìíîïñòóôöùúûü]+         Doit commencer par un espace ou un ' et suivi d'au moins 1 caractère de la liste
+        $nameBeginning = "^([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+";
+        // ^                                                                          Doit être situé au début de la phrase
+        //  (                                                                  )+     Doit inclure au moins 1 des caractères situés dans la liste suivante
+        //   [a-zàáâäçèéêëìíîïñòóôöùúûü]+(                                   )*       Doit commencer par au moins 1 des caractères de la liste, la suite n'est pas obligatoire
+        //                                ( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü]+         Doit commencer par un espace ou un ' et suivi d'au moins 1 caractère de la liste
 
-        $nameEnding = "([-]([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+)*$";
-        //                                                                          $   Doit être situé à la fin de la phrase
-        // ([-]                                                                   )*    La présence d'une suite commencant par un tiret n'est pas obligatoire
-        //     (                                                                )+      Doit inclure au moins 1 des caractères de la liste suivante
-        //      [a-zàáâäçèéêëìíîïñòóôöùúûü]+(                                 )*        Doit inclure au moins 1 caractère de la liste, la siute n'est pas obligatoire
-        //                                   ( |')[a-zàáâäçèéêëìíîïñòóôöùúûü]+          Doit commencer par un espace ou un ' et suivi d'au moins 1 caractère de la liste
+        $nameEnding = "([-]([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+)*$";
+        //                                                                            $   Doit être situé à la fin de la phrase
+        // ([-]                                                                     )*    La présence d'une suite commencant par un tiret n'est pas obligatoire
+        //     (                                                                  )+      Doit inclure au moins 1 des caractères de la liste suivante
+        //      [a-zàáâäçèéêëìíîïñòóôöùúûü]+(                                   )*        Doit inclure au moins 1 caractère de la liste, la siute n'est pas obligatoire
+        //                                   ( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü]+          Doit commencer par un espace ou un ' et suivi d'au moins 1 caractère de la liste
 
         $pregListForCatName = "/" . $nameBeginning . $nameEnding . "/i"; // i = insensible à la casse
         $catNameChecks = (preg_match($pregListForCatName, $catName) ? true : false); // test de conformité du nom de la catégorie, s'il est bon $catNameChecks devient true
 
 
         // Regex de la description de la catégorie
-        $descrBeginning = "^([a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+)*)+";
-        // ^                                                                                                Doit être au début de la phrase
-        //  (                                                                                        )+     Doit inclure au moins 1 des caractères situés dans la liste
-        //   [a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(                                             )*       Doit inclure au moins 1 des caractères de la liste, suivi de 0 ou plusieurs caractères ci-dessous
-        //                                            ( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+         Doit commencer par un espace ou un ' et suivi d'au moins 1 caractère de la liste
+        $descrBeginning = "^([a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+)*)+";
+        // ^                                                                                                  Doit être au début de la phrase
+        //  (                                                                                          )+     Doit inclure au moins 1 des caractères situés dans la liste
+        //   [a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(                                               )*       Doit inclure au moins 1 des caractères de la liste, suivi de 0 ou plusieurs caractères ci-dessous
+        //                                            ( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+         Doit commencer par un espace ou un ' et suivi d'au moins 1 caractère de la liste
 
-        $descrEnding = "([-]([a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+)*)+)*$";
-        //                                                                                                  $   Doit être situé à la fin de la phrase
-        // (                                                                                              )*    Doit comporter 0 ou plusieurs éléments de la liste suivante
-        //  [-](                                                                                        )+      Doit comporter au moins 1 tiret suivi de la liste suivante
-        //      [a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(                                             )*        Doit comporter au moins 1 des caractères listés suivi de 0 ou plusieurs caractéres de la liste suivante
-        //                                               ( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+          Doit commencer par un espace ou un ' suivi d'au moins 1 caractère de la liste suivante
+        $descrEnding = "([-]([a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+)*)+)*$";
+        //                                                                                                    $   Doit être situé à la fin de la phrase
+        // (                                                                                                )*    Doit comporter 0 ou plusieurs éléments de la liste suivante
+        //  [-](                                                                                          )+      Doit comporter au moins 1 tiret suivi de la liste suivante
+        //      [a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(                                               )*        Doit comporter au moins 1 des caractères listés suivi de 0 ou plusieurs caractéres de la liste suivante
+        //                                               ( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+          Doit commencer par un espace ou un ' suivi d'au moins 1 caractère de la liste suivante
 
         if (!empty($catDescript)) { // test de conformité de la description se déclenchant uniquement si la description n'est pas vide
             $pregListForCatDescript = "/" . $descrBeginning . $descrEnding . "/i"; // i = insensible à la casse

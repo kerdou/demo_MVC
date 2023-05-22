@@ -28,38 +28,38 @@ class ProspClientFormsChecks
         $commentChecks = false; //@var bool renverra le résultat du test du commentaire
 
         // expressions régulières des caractères autorisés pour les tests
-        // $pregListForAddress = "^([a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+)*)+([-]([a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+)*)+)*$";
-        $addressBeginning = "^([a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+)*)+";
-        // ^                                                                            Doit être situé au début de la phrase
-        //  (                                                                      )+   Doit inclure au moins 1 des caractères situés dans la liste suivante
-        //   [a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+(                                    )*     Doit commencer par au moins 1 des caractères de la liste, la suite n'est pas obligatoire
-        //                                   ( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+       Doit commencer par un espace ou un ' et suivi d'au moins 1 caractère de la liste
+        // $pregListForAddress = "^([a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+)*)+([-]([a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+)*)+)*$";
+        $addressBeginning = "^([a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+)*)+";
+        // ^                                                                              Doit être situé au début de la phrase
+        //  (                                                                        )+   Doit inclure au moins 1 des caractères situés dans la liste suivante
+        //   [a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+(                                      )*     Doit commencer par au moins 1 des caractères de la liste, la suite n'est pas obligatoire
+        //                                   ( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+       Doit commencer par un espace ou un ' et suivi d'au moins 1 caractère de la liste
 
 
-        $addressEnding = "([-]([a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+)*)+)*$";
-        //                                                                                $     Doit être situé à la fin de la phrase
-        // (                                                                            )*      Doit comporter 0 ou plusieurs éléments de la liste suivante
-        //  [-](                                                                      )+        Doit comporter au moins 1 tiret suivi de la liste suivante
-        //      [a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+(                                    )*          Doit comporter au moins 1 des caractères listés suivi de 0 ou plusieurs caractéres de la liste suivante
-        //                                      ( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+            Doit commencer par un espace ou un ' suivi d'au moins 1 caractère de la liste suivante
+        $addressEnding = "([-]([a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+)*)+)*$";
+        //                                                                                  $     Doit être situé à la fin de la phrase
+        // (                                                                              )*      Doit comporter 0 ou plusieurs éléments de la liste suivante
+        //  [-](                                                                        )+        Doit comporter au moins 1 tiret suivi de la liste suivante
+        //      [a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+(                                      )*          Doit comporter au moins 1 des caractères listés suivi de 0 ou plusieurs caractéres de la liste suivante
+        //                                      ( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9]+            Doit commencer par un espace ou un ' suivi d'au moins 1 caractère de la liste suivante
 
         $pregListForAddress = "/" . $addressBeginning . $addressEnding . "/i"; // i = insensible à la casse
         $addressChecks = (preg_match($pregListForAddress, $usAddress) ? true : false); // test de conformité de l'adresse, s'il est bon $addressChecks devient true
 
 
-        //$pregListForNamesAndCity = "/^([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+([-]([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+)*$/i";
-        $nameAndCityBeginning = "^([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+";
-        // ^                                                                        Doit être situé au début de la phrase
-        //  (                                                                )+     Doit inclure au moins 1 des caractères situés dans la liste suivante
-        //   [a-zàáâäçèéêëìíîïñòóôöùúûü]+(                                 )*       Doit commencer par au moins 1 des caractères de la liste, la suite n'est pas obligatoire
-        //                                ( |')[a-zàáâäçèéêëìíîïñòóôöùúûü]+         Doit commencer par un espace ou un ' et suivi d'au moins 1 caractère de la liste
+        //$pregListForNamesAndCity = "/^([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+([-]([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+)*$/i";
+        $nameAndCityBeginning = "^([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+";
+        // ^                                                                          Doit être situé au début de la phrase
+        //  (                                                                  )+     Doit inclure au moins 1 des caractères situés dans la liste suivante
+        //   [a-zàáâäçèéêëìíîïñòóôöùúûü]+(                                   )*       Doit commencer par au moins 1 des caractères de la liste, la suite n'est pas obligatoire
+        //                                ( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü]+         Doit commencer par un espace ou un ' et suivi d'au moins 1 caractère de la liste
 
-        $nameAndCityEnd = "([-]([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+)*$";
-        //                                                                          $   Doit être situé à la fin de la phrase
-        // (                                                                      )*    Doit comporter 0 ou plusieurs éléments de la liste suivante
-        //  [-](                                                                )+      Doit comporter au moins 1 tiret suivi de la liste suivante
-        //      [a-zàáâäçèéêëìíîïñòóôöùúûü]+(                                 )*        Doit comporter au moins 1 des caractères listés suivi de 0 ou plusieurs caractéres de la liste suivante
-        //                                   ( |')[a-zàáâäçèéêëìíîïñòóôöùúûü]+          Doit commencer par un espace ou un ' suivi d'au moins 1 caractère de la liste suivante
+        $nameAndCityEnd = "([-]([a-zàáâäçèéêëìíîïñòóôöùúûü]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü]+)*)+)*$";
+        //                                                                            $   Doit être situé à la fin de la phrase
+        // (                                                                        )*    Doit comporter 0 ou plusieurs éléments de la liste suivante
+        //  [-](                                                                  )+      Doit comporter au moins 1 tiret suivi de la liste suivante
+        //      [a-zàáâäçèéêëìíîïñòóôöùúûü]+(                                   )*        Doit comporter au moins 1 des caractères listés suivi de 0 ou plusieurs caractéres de la liste suivante
+        //                                   ( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü]+          Doit commencer par un espace ou un ' suivi d'au moins 1 caractère de la liste suivante
 
         $pregListForNamesAndCity = "/" . $nameAndCityBeginning . $nameAndCityEnd . "/i";
         $lastnameChecks = (preg_match($pregListForNamesAndCity, $usLastname) ? true : false); // test de conformité du nom de famille, s'il est bon $lastnameChecks devient true
@@ -70,19 +70,19 @@ class ProspClientFormsChecks
         $pregListForPostCode = "/^[0-9]{5}$/"; // 5 chiffres entre 0 et 9
         $postcodeChecks = (preg_match($pregListForPostCode, $usPostcode) ? true : false); // test de conformité du code postal, s'il est bon $postcodeChecks devient true
 
-        //$pregListForComment = "/^([a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+)*)+([-]([a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+)*)+)*$/i";
-        $commentBeginning = "^([a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+)*)+";
-        // ^                                                                                                Doit être situé au début de la phrase
-        //  (                                                                                        )+     Doit inclure au moins 1 des caractères situés dans la liste suivante
-        //   [a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(                                             )*       Doit commencer par au moins 1 des caractères de la liste, la suite n'est pas obligatoire
-        //                                            ( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+         Doit commencer par un espace ou un ' et suivi d'au moins 1 caractère de la liste
+        //$pregListForComment = "/^([a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+)*)+([-]([a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+)*)+)*$/i";
+        $commentBeginning = "^([a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+)*)+";
+        // ^                                                                                                  Doit être situé au début de la phrase
+        //  (                                                                                          )+     Doit inclure au moins 1 des caractères situés dans la liste suivante
+        //   [a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(                                               )*       Doit commencer par au moins 1 des caractères de la liste, la suite n'est pas obligatoire
+        //                                            ( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+         Doit commencer par un espace ou un ' et suivi d'au moins 1 caractère de la liste
 
-        $commentEnd = "([-]([a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+)*)+)*$";
-        //                                                                                                  $   Doit être situé à la fin de la phrase
-        // (                                                                                              )*    Doit comporter 0 ou plusieurs éléments de la liste suivante
-        //  [-](                                                                                        )+      Doit comporter au moins 1 tiret suivi de la liste suivante
-        //      [a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(                                             )*        Doit comporter au moins 1 des caractères listés suivi de 0 ou plusieurs caractéres de la liste suivante
-        //                                               ( |')[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+          Doit commencer par un espace ou un ' suivi d'au moins 1 caractère de la liste suivante
+        $commentEnd = "([-]([a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+)*)+)*$";
+        //                                                                                                    $   Doit être situé à la fin de la phrase
+        // (                                                                                                )*    Doit comporter 0 ou plusieurs éléments de la liste suivante
+        //  [-](                                                                                          )+      Doit comporter au moins 1 tiret suivi de la liste suivante
+        //      [a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+(                                               )*        Doit comporter au moins 1 des caractères listés suivi de 0 ou plusieurs caractéres de la liste suivante
+        //                                               ( |'‘’)[a-zàáâäçèéêëìíîïñòóôöùúûü0-9:\(\)\?\!]+          Doit commencer par un espace ou un ' suivi d'au moins 1 caractère de la liste suivante
 
         $pregListForComment = "/" . $commentBeginning . $commentEnd . "/i";
         if (!empty($usComment)) { // test de conformité du commentaire se déclenchant uniquement si le commentaire n'est pas vide
